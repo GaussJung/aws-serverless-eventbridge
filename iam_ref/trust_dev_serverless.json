@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                    "apigateway.amazonaws.com",
+                    "lambda.amazonaws.com",
+                    "sqs.amazonaws.com",
+		    "sns.amazonaws.com",
+		    "ec2.amazonaws.com",
+                    "dynamodb.amazonaws.com",
+		    "scheduler.amazonaws.com",
+                    "cloudformation.amazonaws.com"
+                ]
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}

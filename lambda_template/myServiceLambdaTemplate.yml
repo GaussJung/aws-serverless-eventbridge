@@ -1,0 +1,68 @@
+Resources:
+  Lambda1Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: MY_SERVICE_URL_CHECKER
+      Description: Monitoring URL Checker 
+      Runtime: python3.12
+      Handler: index.lambda_handler
+      MemorySize: 128
+      Timeout: 10
+      EphemeralStorage:
+        Size: 512      
+      Environment:
+        Variables:
+          checkTargetURL: https://daum.net     
+      Architectures:
+        - x86_64
+      Code:
+        ZipFile: |
+            import json
+            def lambda_handler(event, context):
+                print(event)
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps('Lambda1-This is MY_SERVICE_URL_CHECKER V1.0')
+                }
+      Role: arn:aws:iam::111122223333:role/my_role_dev_serverless
+  Lambda2Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: MY_SERVICE_URL_SNS
+      Description: Send Notification After Check URL status 
+      Runtime: python3.12
+      Handler: index.lambda_handler
+      MemorySize: 128
+      Timeout: 10      
+      EphemeralStorage:
+        Size: 512
+      Environment:
+        Variables:
+          snsArn: arn:aws:sns:ap-northeast-2:111122223333:my-service-monitor
+      Architectures:
+        - x86_64
+      Code:
+        ZipFile: |
+            import json
+            def lambda_handler(event, context):
+                print(event)
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps('Lambda2-This is MY_SERVICE_URL_SNS V1.0')
+                }
+      Role: arn:aws:iam::111122223333:role/my_role_dev_serverless
+
+  LambdaAsyncConfig:
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties:
+      DestinationConfig:
+        OnSuccess:
+          Destination:
+            Fn::GetAtt: ['Lambda2Function', 'Arn']
+      FunctionName: !Ref Lambda1Function
+      Qualifier: $LATEST
+
+
+
+
+
