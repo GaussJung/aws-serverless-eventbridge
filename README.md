@@ -1,4 +1,4 @@
-# aws-serverless-eventbridge v1.22
+# aws-serverless-eventbridge v1.23
 Practice using  AWS eventbridge, SNS, Lambda for monitoring IT Resources. 
 
 ■ Cloud Architect Diagram
@@ -16,5 +16,12 @@ Practice using  AWS eventbridge, SNS, Lambda for monitoring IT Resources.
 - AWS CLI Version2   
 - EC2 practice instance 
 
+■ Estimation   
+- Beginner : 2H
+- skilled user : 1H   
+
+■ Guide     
+- I recommend for you to read AWS formal document about AWS severless resouces before doing this practice.  
+- Follow script guide - [cli_helper_command.sh] (https://github.com/GaussJung/aws-serverless-eventbridge/blob/57da30b138ff4ee9bab58ff6036c3c4ae9e0bd8e/cli_helper_command.sh)) after setting pre-requsite.          
 
 
