@@ -1,8 +1,9 @@
-# aws-serverless-eventbridge v1.21
+# aws-serverless-eventbridge v1.22
 Practice using  AWS eventbridge, SNS, Lambda for monitoring IT Resources. 
 
 ■ Cloud Architect Diagram
-<img src="https://github.com/GaussJung/aws-serverless-eventbridge/blob/master/resource/eventbridge_serverless.jpg" alt="EventBridge" width="860"/>
+
+<img src="https://github.com/GaussJung/aws-serverless-eventbridge/blob/master/resource/eventbridge_serverless.jpg" alt="EventBridge" width="860"  border="1px solid gray"  />
  
 ■ AWS Resources    
 - Lambda : Serverless Function 2 (Checker and Notificator)   
