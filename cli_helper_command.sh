@@ -107,7 +107,7 @@ aws sns create-topic --name  my-service-monitor
 }
 
 2) Subscription 생성 
-aws sns subscribe --topic-arn  arn:aws:sns:ap-northeast-2:111122223333:my-service-monitor --protocol email --notification-endpoint  entqbi@gmail.com
+aws sns subscribe --topic-arn  arn:aws:sns:ap-northeast-2:111122223333:my-service-monitor --protocol email --notification-endpoint  myemailaddress@gmail.com
 (결과) 
 {
     "SubscriptionArn": "pending confirmation"
