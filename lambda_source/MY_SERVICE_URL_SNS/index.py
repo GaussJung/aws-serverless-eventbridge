@@ -52,8 +52,6 @@ def lambda_handler(event, content):
         print(f"C2-A. Connection success for {checkURL} at {currtime}")
         outSnsResponse = publish_sns(f"My-URL success for {checkURL}", eventDump)
     else:
-        # 수신전화번호 : os.environ['smsReceiverPhone'] 환경변수에 저장 (01073579090)
-        pureCheckURL = checkURL.split('//')[1]
         #print(f"C3-B. Connection fail for {checkURL}")
         outSnsResponse = publish_sns(f"My-URL fail for {checkURL} at {currtime}", eventDump)
 
