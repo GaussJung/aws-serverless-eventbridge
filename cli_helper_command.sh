@@ -1,3 +1,17 @@
+# AWS CLI명령어 참조문서
+[CIL V2 Command Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/index.html) 
+
+#. 4개의 단계로 나누어서 진행 
+- Step1 : IAM   
+- Step2 : SNS   
+- Step3 : Lambda  
+- Step4 : EventBridge   
+
+#. 파일내용 변경사항
+- 편집기를 활용하여 변경 (예시 vi)   
+- [필수] 계정 일괄변경 (vi편집기 명령어 --> :%s/111122223333/444455556666) 
+- [선택] 리전 일괄변경 (vi편집기 명령어 --> :%s/ap-northeast-2/us-east-1)  
+ 
 ##########  Step1. IAM ##########
 서버리스에 필요한 주요 권한을 포함하는 역할을 생성 
 
@@ -128,7 +142,7 @@ aws sns publish --topic-arn arn:aws:sns:ap-northeast-2:111122223333:my-service-m
     "MessageId": "a34ab345-0cc9-5fd9-9e91-ecbb83bce8b3"
 }
 (비고) 제목포함 이메일 발송 
-aws sns publish --topic-arn arn:aws:sns:ap-northeast-2:111122223333:my-service-monitor  --subject "SNS Title 2025"  --message "SNS Test2!"
+aws sns publish --topic-arn arn:aws:sns:ap-northeast-2:111122223333:my-service-monitor  --subject "SNS Title"  --message "SNS Test2!"
 
 ##########  Step3. Lambda Function ##########
 (설명)  cloudFormation 스택으로 함수 생성 
@@ -213,8 +227,6 @@ aws  cloudformation  create-stack  --template-body  file://myServiceLambdaTempla
 {
     "StackId": "arn:aws:cloudformation:ap-northeast-2:111122223333:stack/LambdaURLCheckerV1/9b1e5bf0-d17d-11ef-87b5-06735a796d1b"
 }
-: 스택삭제 
-aws  cloudformation  delete-stack  --stack-name   EC2enqvpc-B
 
 3) 함수내용 갱신 
 cd ~/awswork/eventbridge/lambda_source/MY_SERVICE_URL_CHECKER   --> 이 안에는 index.py 파일이 한 개 있음. 
@@ -271,6 +283,7 @@ B) 실패 이벤트 추가후 동작
 ##########  Step4. Event Bridge Scheduler ##########
 30분 혹은 1시간 간격으로 동작하는 스케줄러 동작 
 초기에 1회 동작하는 스캐줄러를 구동하여 정상여부를 확인후 주기 스캐줄러를 동작시킴 
+이벤트브리지에서 실어보내는 checkURL이 모니터링 대상 URL이므로 필요시 편집 
 
 참조 : https://docs.aws.amazon.com/cli/latest/reference/scheduler/create-schedule.html 
 
@@ -344,4 +357,37 @@ aws scheduler update-schedule --name my-url-checker   --schedule-expression 'rat
 aws scheduler update-schedule --name my-url-checker   --schedule-expression 'rate(60 minutes)' \
 --target '{"RoleArn": "arn:aws:iam::111122223333:role/my_role_dev_serverless", "Arn":"arn:aws:lambda:ap-northeast-2:569251118950:function:MY_SERVICE_URL_CHECKER", "Input": "{ \"version\": \"1.1\", \"checkURL\": \"https://www.google.com\"  }" }' \
 --flexible-time-window '{ "Mode": "OFF"}'
- 
+
+
+########## 생성자원 삭제 ##########   
+생성된 자원은 CLI나 콘솔 등에서 삭제가능함.  
+서버리스 특성상 테스트 진행에 있어서 과금요인이 거의 없음. 생성한 자원은 추후 필요시 활용가능  
+
+D1. IAM : Delete role and policy 
+(역할삭제) 
+aws iam delete-role  --role-name my_role_dev_serverless  
+(정책삭제) 
+delete-policy
+aws iam delete-role  --policy-arn  arn:aws:iam::111122223333:policy/my_policy_log
+aws iam delete-role  --policy-arn  arn:aws:iam::111122223333:policy/my_policy_dynamodb
+aws iam delete-role  --policy-arn  arn:aws:iam::111122223333:policy/my_policy_apigateway
+aws iam delete-role  --policy-arn  arn:aws:iam::111122223333:policy/my_policy_queue
+aws iam delete-role  --policy-arn  arn:aws:iam::111122223333:policy/my_policy_lambda
+aws iam delete-role  --policy-arn  arn:aws:iam::111122223333:policy/my_policy_ec2
+aws iam delete-role  --policy-arn  arn:aws:iam::111122223333:policy/my_policy_sns 
+
+D2. SNS : Delete topic and unsubscribe 
+(토픽삭제) 
+aws sns delete-topic  --topic-arn arn:aws:sns:ap-northeast-2:111122223333:my-service-monitor
+(구독삭제)  subscription-arn을 콘솔에서 확인후 아래명령줄 변경 
+aws sns unsubscribe  --subscription-arn arn:aws:sns:ap-northeast-2:111122223333:my-service-monitor:a1e653a6-150f-999a-a78d-89b052fe11a1
+
+D3. Lambda : Delete function / cloudFormation에서 스택제거를 통해서 진행  
+aws  cloudformation  delete-stack  --stack-name  LambdaURLCheckerV1  
+
+D4. EventBridge : Delete Scheduler 
+aws scheduler  delete-schedule  --name my-url-checker-once
+aws scheduler  delete-schedule  --name my-url-checker
+
+------ End ----- 
+
