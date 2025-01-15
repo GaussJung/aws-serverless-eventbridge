@@ -1,5 +1,17 @@
 
-#. 파일내용 변경사항
+■ 실습진행을 위한 기기조건       
+- t2.micro 혹은 t3a.micro이상 권장  
+- CLI환경이 설정된 노트북 혹은 PC에서도 진행가능   
+- CLI활용에 필요한 IAM 사용자 사전생성필요    
+
+■ 실습진행 절차   
+- Step1 > IAM  : CLI 사용하여 역할과 정책생성후 역할에 정책붙임   
+- Step2 > SNS : CLI 사용하여 주제(TOPIC)과 구독(Subscription)생성 / E-mail에 접속 Verification필요   
+- Step3 > Lambda : cloudFormation사용하여 2개 생성후 cli를 활용하여 함수코드 업로드  
+- Step4 > EventBridge : CLI사용하여 1회성 Scheduler와 1시간 마다 동작하는 주기작업 Scheduler 작성     
+- (필요시) 작성된 자원 삭제  
+
+■ 파일내용 변경사항
 - 편집기를 활용하여 변경 (예시 vi)   
 - [필수] 계정 일괄변경 (vi편집기 명령어 --> :%s/111122223333/444455556666) 
 - [선택] 리전 일괄변경 (vi편집기 명령어 --> :%s/ap-northeast-2/us-east-1)  
