@@ -1,17 +1,9 @@
-# AWS CLI명령어 참조문서
-[CIL V2 Command Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/index.html) 
-
-#. 4개의 단계로 나누어서 진행 
-- Step1 : IAM   
-- Step2 : SNS   
-- Step3 : Lambda  
-- Step4 : EventBridge   
 
 #. 파일내용 변경사항
 - 편집기를 활용하여 변경 (예시 vi)   
 - [필수] 계정 일괄변경 (vi편집기 명령어 --> :%s/111122223333/444455556666) 
 - [선택] 리전 일괄변경 (vi편집기 명령어 --> :%s/ap-northeast-2/us-east-1)  
- 
+
 ##########  Step1. IAM ##########
 서버리스에 필요한 주요 권한을 포함하는 역할을 생성 
 
@@ -229,11 +221,11 @@ aws  cloudformation  create-stack  --template-body  file://myServiceLambdaTempla
 }
 
 3) 함수내용 갱신 
-cd ~/awswork/eventbridge/lambda_source/MY_SERVICE_URL_CHECKER   --> 이 안에는 index.py 파일이 한 개 있음. 
+cd ~/awswork/aws-serverless-eventbridge/lambda_source/MY_SERVICE_URL_CHECKER   --> 이 안에는 index.py 파일이 한 개 있음. 
 zip -r func_checker.zip *
 aws lambda update-function-code --function-name MY_SERVICE_URL_CHECKER  --zip-file  fileb://func_checker.zip
 
-cd ~/awswork/eventbridge/lambda_source/MY_SERVICE_URL_SNS    --> 이 안에는 index.py 파일이 한 개 있음. 
+cd ~/awswork/aws-serverless-eventbridge/lambda_source/MY_SERVICE_URL_SNS    --> 이 안에는 index.py 파일이 한 개 있음. 
 zip -r func_sns.zip *
 aws lambda update-function-code --function-name MY_SERVICE_URL_SNS --zip-file  fileb://func_sns.zip
 
