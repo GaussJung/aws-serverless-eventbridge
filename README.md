@@ -1,5 +1,7 @@
-# aws-serverless-eventbridge v1.36  
-Practice using  AWS eventbridge, SNS, Lambda for monitoring IT Resources. 
+# aws-serverless-eventbridge v1.37
+■ Remark
+- Author : C.W.Jung (cwjung123@gmail.com)
+- Practice using  AWS eventbridge, SNS, Lambda for monitoring IT Resources. 
 
 ■ Cloud Architect Diagram
 
